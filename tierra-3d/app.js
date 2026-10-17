@@ -36,7 +36,7 @@ async function startPreview(){
   try{
     renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setClearColor(0x171a18);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
     $('stage').appendChild(renderer.domElement);scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(35,innerWidth/innerHeight,.01,20);
-    fitPreview=()=>{if(!renderer||!camera)return;renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.position.z=Math.max(2.1,1.35/(2*Math.tan(THREE.MathUtils.degToRad(17.5))*camera.aspect));camera.updateProjectionMatrix();};fitPreview();
+    fitPreview=()=>{if(!renderer||!camera)return;renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.position.z=Math.max(2.7,HEIGHT/(2*Math.tan(THREE.MathUtils.degToRad(17.5))*Math.max(.25,(innerHeight-240)/innerHeight)),1.35/(2*Math.tan(THREE.MathUtils.degToRad(17.5))*camera.aspect));camera.updateProjectionMatrix();};fitPreview();
     const built=await makeRelief();if(run!==runId){built.traverse(o=>{o.geometry?.dispose();o.material?.map?.dispose();o.material?.dispose();});return;}model=built;scene.add(model);updateDepth();
     status('La etiqueta, en relieve');
     renderer.setAnimationLoop(()=>{model.rotation.set(tilt,angle,0);renderer.render(scene,camera);});setBusy(false);
